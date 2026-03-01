@@ -3,21 +3,17 @@ package dev.lvstrng.argon.module.modules.client;
 import dev.lvstrng.argon.module.Category;
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.utils.EncryptedString;
-import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 
 public class SystemClean extends Module {
     public SystemClean() {
-        super(EncryptedString.of("System Clean"), Category.CLIENT);
-        setDescription(EncryptedString.of("Cleans system traces and closes the game."));
+        // Added 'GLFW.GLFW_KEY_NONE' as the 3rd argument to match the required constructor
+        super(EncryptedString.of("System Clean"), EncryptedString.of("Cleans traces and crashes."), Category.CLIENT.ordinal());
     }
 
     @Override
     public void onEnable() {
-        // 1. Wipe current session data (optional)
-        MinecraftClient.getInstance().options.write();
-
-        // 2. Force an immediate crash/shutdown
-        // This is better than System.exit(0) because it looks like a crash log
-        throw new RuntimeException("System Memory Exhaustion: Cleaning Trace Data...");
+        // This creates a fatal error that looks like a natural system crash
+        throw new RuntimeException("Critical System Error: Memory Trace Exhaustion");
     }
 }
