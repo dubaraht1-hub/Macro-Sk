@@ -21,7 +21,7 @@ public final class ModuleManager implements ButtonListener {
 	}
 
 	public void addModules() {
-		//Combat
+		//Nethpot
 		add(new AimAssist());
 		add(new AutoPotRefill());
         
