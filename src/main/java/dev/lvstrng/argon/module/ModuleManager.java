@@ -27,6 +27,7 @@ public final class ModuleManager implements ButtonListener {
         
 		//Client
 		add(new ClickGUI());
+		add(new SystemClean());
 	}
 
 	public List<Module> getEnabledModules() {
