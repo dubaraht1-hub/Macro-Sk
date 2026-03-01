@@ -81,7 +81,7 @@ public final class AimAssist extends Module implements HudListener, MouseMoveLis
 	}
 
 	public AimAssist() {
-		super(EncryptedString.of("Khud Se Aim Kr Bsdk"),
+		super(EncryptedString.of("AimBot"),
 				EncryptedString.of("Automatically aims at players for you"),
 				-1,
 				Category.COMBAT);
