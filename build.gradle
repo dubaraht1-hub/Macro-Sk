@@ -1,7 +1,19 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Required for Java 21 support
+        classpath 'com.guardsquare:proguard-gradle:7.4.2'
+    }
+}
+
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
+
+import com.guardsquare.proguard.gradle.ProGuardTask
 
 version = project.mod_version
 group = project.maven_group
@@ -11,7 +23,7 @@ base {
 }
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
+    mavenCentral()
 }
 
 configurations {
@@ -19,14 +31,12 @@ configurations {
 }
 
 dependencies {
-    // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation 'org.projectlombok:lombok:1.18.30'
     annotationProcessor('org.projectlombok:lombok:1.18.30')
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
     compileOnly files("lib/annotations-1.0.6.jar")
 }
 
@@ -35,7 +45,6 @@ processResources {
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "loader_version", project.loader_version
     filteringCharset "UTF-8"
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "minecraft_version": project.minecraft_version,
@@ -46,9 +55,7 @@ processResources {
 def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release.set(targetJavaVersion)
-    }
+    it.options.release.set(targetJavaVersion)
 }
 
 java {
@@ -59,28 +66,32 @@ java {
     withSourcesJar()
 }
 
+// --- PROGUARD OBFUSCATION TASK ---
+tasks.register('obfuscate', ProGuardTask) {
+    dependsOn jar
+    
+    // Input: The JAR Fabric Loom just built
+    injars jar.archiveFile
+    
+    // Output: The final "Skid-look" JAR
+    outjars "build/libs/${project.archives_base_name}-${project.version}-obfuscated.jar"
+
+    // Java 21 Library Jars (Standard for most setups)
+    libraryjars "${System.getProperty('java.home')}/jmods"
+
+    // Load rules from a separate file
+    configuration 'proguard.rules'
+}
+
+// Ensure build finishes with obfuscation
+build.finalizedBy(obfuscate)
+
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-
-    // Include JARs from lib/ directory in the final JAR
     from {
         configurations.shadow.collect { it.isDirectory() ? it : zipTree(it) }
     }
-
-    // Avoid duplicating META-INF files when merging libraries
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-
-    repositories {
-        // Add repositories to publish to here.
-    }
 }
