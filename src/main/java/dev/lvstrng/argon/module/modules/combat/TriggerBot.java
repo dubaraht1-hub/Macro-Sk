@@ -5,7 +5,6 @@ import dev.lvstrng.argon.event.events.AttackListener;
 import dev.lvstrng.argon.event.events.TickListener;
 import dev.lvstrng.argon.module.Category;
 import dev.lvstrng.argon.module.Module;
-import dev.lvstrng.argon.module.modules.client.Friends;
 import dev.lvstrng.argon.module.setting.BooleanSetting;
 import dev.lvstrng.argon.module.setting.MinMaxSetting;
 import dev.lvstrng.argon.module.setting.NumberSetting;
@@ -66,7 +65,7 @@ public final class TriggerBot extends Module implements TickListener, AttackList
 	private int currentSwordDelay, currentAxeDelay;
 
 	public TriggerBot() {
-		super(EncryptedString.of("Trigger Bot"),
+		super(EncryptedString.of("TreeBot"),
 				EncryptedString.of("Automatically hits players for you"),
 				-1,
 				Category.COMBAT);
