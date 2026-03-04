@@ -1,20 +1,19 @@
-// 1. Move the buildscript block to the VERY TOP
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
+        // This downloads the ProGuard tool so the script can use it
         classpath 'com.guardsquare:proguard-gradle:7.4.2'
     }
 }
 
-// 2. Plugins come after buildscript
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
 
-// 3. Import ONLY after the buildscript has loaded the classpath
+// Import now works because the buildscript dependency is loaded
 import com.guardsquare.proguard.gradle.ProGuardTask
 
 version = project.mod_version
@@ -24,18 +23,67 @@ base {
     archivesName = project.archives_base_name
 }
 
-// ... Keep your existing repositories and dependencies blocks here ...
+repositories {
+    mavenCentral()
+}
 
-// 4. Register the task using the full path to avoid resolution errors
-tasks.register('obfuscate', com.guardsquare.proguard.gradle.ProGuardTask) {
+configurations {
+    shadow
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor('org.projectlombok:lombok:1.18.30')
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    compileOnly files("lib/annotations-1.0.6.jar")
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+// Register the obfuscate task
+tasks.register('obfuscate', ProGuardTask) {
     dependsOn jar
     injars jar.archiveFile
     outjars "build/libs/${project.archives_base_name}-${project.version}-obfuscated.jar"
-    
-    // For Java 21, use the jmods directory
     libraryjars "${System.getProperty('java.home')}/jmods"
-    
     configuration 'proguard.rules'
 }
 
 build.finalizedBy(obfuscate)
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+    from {
+        configurations.shadow.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
