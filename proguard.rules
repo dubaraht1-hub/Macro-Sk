@@ -1,0 +1,21 @@
+# 1. Scramble everything into the root package (gives the a.class look)
+-repackageclasses ''
+-allowaccessmodification
+-overloadaggressively
+
+# 2. Keep the Fabric Entrypoints (CRITICAL: If you rename these, the mod won't load)
+-keep @net.fabricmc.api.Environment class *
+-keep class * implements net.fabricmc.api.ModInitializer { *; }
+-keep class * implements net.fabricmc.api.ClientModInitializer { *; }
+
+# 3. Keep Mixins (If you use them, Ocean scanners look for these)
+-keep class **.mixin.** { *; }
+
+# 4. Don't touch Minecraft or Fabric internals
+-keep class net.minecraft.** { *; }
+-keep class net.fabricmc.** { *; }
+-dontwarn net.fabricmc.**
+-dontwarn org.projectlombok.**
+
+# 5. Keep your Main Argon class so the client knows where to start
+-keep class dev.lvstrng.argon.Argon { *; }
