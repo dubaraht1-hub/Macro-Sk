@@ -2,6 +2,7 @@ package dev.lvstrng.argon.module.modules.combat;
 
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.Category;
+import org.lwjgl.glfw.GLFW;
 
 public class DelayCrasher extends Module {
     
@@ -10,7 +11,7 @@ public class DelayCrasher extends Module {
     private boolean armed = false;
 
     public DelayCrasher() {
-        super("DelayCrasher", Category.COMBAT, "Crashes the game after 5 seconds.");
+        super("DelayCrasher", "Crashes the game after 5 seconds.", GLFW.GLFW_KEY_M, Category.COMBAT);
     }
 
     @Override
@@ -19,8 +20,7 @@ public class DelayCrasher extends Module {
         armed = true;
     }
 
-    @Override
-    public void onTick() {
+    public void onUpdate() {
         if (armed) {
             if (System.currentTimeMillis() - startTime >= delayMs) {
                 armed = false;
@@ -32,6 +32,5 @@ public class DelayCrasher extends Module {
     @Override
     public void onDisable() {
         armed = false;
-        super.onDisable();
     }
 }
