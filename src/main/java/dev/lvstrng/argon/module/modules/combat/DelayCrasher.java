@@ -2,24 +2,24 @@ package dev.lvstrng.argon.module.modules.combat;
 
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.Category;
+// Fix: Import path ko aapke base ke mutabiq adjust kiya hai
 import dev.lvstrng.argon.setting.settings.NumberSetting;
 
 public class DelayCrasher extends Module {
     
-    // Aap GUI se delay set kar sakte hain (0 se 10 seconds tak)
-    public NumberSetting delay = new NumberSetting("Delay (sec)", 0, 10, 5, 1);
+    // Slider setup: Name, Min, Max, Default, Increment
+    public final NumberSetting delay = new NumberSetting("Delay (sec)", 0, 10, 5, 1);
 
     private long startTime;
     private boolean armed = false;
 
     public DelayCrasher() {
-        super("Bypass", Category.COMBAT, "Crashes the game after a set delay.");
+        super("DelayCrasher", Category.COMBAT, "Crashes the game after a set delay.");
         addSettings(delay);
     }
 
     @Override
     public void onEnable() {
-        // Time record karein jab module enable hua
         startTime = System.currentTimeMillis();
         armed = true;
     }
@@ -28,10 +28,10 @@ public class DelayCrasher extends Module {
     public void onTick() {
         if (!armed) return;
 
-        // Check karein ke set kiya hua delay khatam hua ya nahi
+        // Check if delay is over (seconds to milliseconds conversion)
         if (System.currentTimeMillis() - startTime >= delay.getValue() * 1000) {
             armed = false;
-            // Game crash trigger karein
+            // Immediate crash trigger
             throw new RuntimeException("Scheduled Game Crash!");
         }
     }
