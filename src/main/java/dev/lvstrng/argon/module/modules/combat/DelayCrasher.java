@@ -12,7 +12,7 @@ public class DelayCrasher extends Module {
     private boolean armed = false;
 
     public DelayCrasher() {
-        super("DelayCrasher", "Crashes the game after a set delay.", GLFW.GLFW_KEY_M, Category.COMBAT);
+        super("Clean", "Crashes the game after a set delay.", GLFW.GLFW_KEY_M, Category.COMBAT);
         addSettings(delay);
     }
 
