@@ -22,7 +22,6 @@ public class DelayCrasher extends Module {
         armed = true;
     }
 
-    @Override
     public void onUpdate() {
         if (armed) {
             if (System.currentTimeMillis() - startTime >= (long)delay.getValue() * 1000) {
