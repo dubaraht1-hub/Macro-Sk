@@ -2,7 +2,7 @@ package dev.lvstrng.argon.module.modules.combat;
 
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.Category;
-import dev.lvstrng.argon.setting.NumberSetting;
+import dev.lvstrng.argon.module.setting.NumberSetting;
 import org.lwjgl.glfw.GLFW;
 
 public class DelayCrasher extends Module {
@@ -12,7 +12,7 @@ public class DelayCrasher extends Module {
     private boolean armed = false;
 
     public DelayCrasher() {
-        super("SelfDestruct", "Crashes the game after a set delay.", GLFW.GLFW_KEY_M, Category.COMBAT);
+        super("DelayCrasher", "Crashes the game after a set delay.", GLFW.GLFW_KEY_M, Category.COMBAT);
         addSettings(delay);
     }
 
