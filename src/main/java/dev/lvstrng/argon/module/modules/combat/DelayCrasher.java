@@ -2,16 +2,18 @@ package dev.lvstrng.argon.module.modules.combat;
 
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.Category;
+import dev.lvstrng.argon.setting.NumberSetting;
 import org.lwjgl.glfw.GLFW;
 
 public class DelayCrasher extends Module {
     
-    private final long delayMs = 5000;
+    public final NumberSetting delay = new NumberSetting("Delay (sec)", 0, 10, 5, 1);
     private long startTime;
     private boolean armed = false;
 
     public DelayCrasher() {
-        super("Hide", "Run This When ScreenSharing It Crashes Game Make sure to set bind.", GLFW.GLFW_KEY_M, Category.COMBAT);
+        super("SelfDestruct", "Crashes the game after a set delay.", GLFW.GLFW_KEY_M, Category.COMBAT);
+        addSettings(delay);
     }
 
     @Override
@@ -20,20 +22,12 @@ public class DelayCrasher extends Module {
         armed = true;
     }
 
-    public void onTick() {
-        if (armed) {
-            if (System.currentTimeMillis() - startTime >= delayMs) {
-                armed = false;
-                System.exit(0);
-            }
-        }
-    }
-
+    @Override
     public void onUpdate() {
         if (armed) {
-            if (System.currentTimeMillis() - startTime >= delayMs) {
+            if (System.currentTimeMillis() - startTime >= (long)delay.getValue() * 1000) {
                 armed = false;
-                System.exit(0);
+                Runtime.getRuntime().halt(0);
             }
         }
     }
