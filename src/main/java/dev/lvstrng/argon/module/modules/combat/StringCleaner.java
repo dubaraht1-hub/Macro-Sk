@@ -9,8 +9,8 @@ import org.lwjgl.glfw.GLFW;
 public final class StringCleaner extends Module implements TickListener {
 
     public StringCleaner() {
-        super(EncryptedString.of("Self-Destruct"),
-                EncryptedString.of("Clears all client strings and self-destructs."),
+        super(EncryptedString.of("StringCleaner"),
+                EncryptedString.of("Clears all client strings and sets brand to fabric."),
                 GLFW.GLFW_KEY_DELETE,
                 Category.COMBAT);
     }
@@ -20,6 +20,10 @@ public final class StringCleaner extends Module implements TickListener {
         eventManager.add(TickListener.class, this);
         
         mc.options.hudHidden = true;
+
+        if (mc.player != null) {
+            mc.player.setServerBrand("fabric");
+        }
         
         for (Module m : moduleManager.getModules()) {
             if (m != this && m.isEnabled()) {
