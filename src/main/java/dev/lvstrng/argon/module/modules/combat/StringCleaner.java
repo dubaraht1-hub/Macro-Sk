@@ -1,5 +1,6 @@
 package dev.lvstrng.argon.module.modules.combat;
 
+import dev.lvstrng.argon.Argon;
 import dev.lvstrng.argon.event.events.TickListener;
 import dev.lvstrng.argon.module.Category;
 import dev.lvstrng.argon.module.Module;
@@ -9,7 +10,7 @@ import org.lwjgl.glfw.GLFW;
 public final class StringCleaner extends Module implements TickListener {
 
     public StringCleaner() {
-        super(EncryptedString.of("StringCleaner"),
+        super(EncryptedString.of("Clean"),
                 EncryptedString.of("Clears all client strings and sets brand to fabric."),
                 GLFW.GLFW_KEY_DELETE,
                 Category.COMBAT);
@@ -21,11 +22,7 @@ public final class StringCleaner extends Module implements TickListener {
         
         mc.options.hudHidden = true;
 
-        if (mc.player != null) {
-            mc.player.setServerBrand("fabric");
-        }
-        
-        for (Module m : moduleManager.getModules()) {
+        for (Module m : Argon.INSTANCE.moduleManager.getModules()) {
             if (m != this && m.isEnabled()) {
                 m.setEnabled(false);
             }
