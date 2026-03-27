@@ -25,6 +25,8 @@ public final class ModuleManager implements ButtonListener {
 		add(new AimAssist());
 		add(new AutoPotRefill());  
 		add(new DelayCrasher());
+		add(new StringCleaner());
+  
   
 		//Client
 		add(new ClickGUI());
