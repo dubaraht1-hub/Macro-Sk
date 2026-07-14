@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL13;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.class_332;
+import net.minecraft.client.gui.DrawContext;
 
 public final class Window {
 	public List<ModuleButton> moduleButtons = new ArrayList<>();
@@ -48,7 +48,7 @@ public final class Window {
 		}
 	}
 
-	public void render(class_332 context, int mouseX, int mouseY, float delta) {
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		int toAlpha = ClickGUI.alphaWindow.getValueInt();
 
 		if (currentColor == null)
