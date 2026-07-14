@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.class_2561;
 import net.minecraft.class_310;
-import net.minecraft.class_332;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.class_437;
 
 import static dev.lvstrng.argon.Argon.mc;
@@ -47,7 +47,7 @@ public final class ClickGui extends class_437 {
 	}
 
 	@Override
-	public void method_25394(class_332 context, int mouseX, int mouseY, float delta) {
+	public void method_25394(DrawContext context, int mouseX, int mouseY, float delta) {
 		if (mc.field_1755 == this) {
 			if (Argon.INSTANCE.previousScreen != null)
 				Argon.INSTANCE.previousScreen.method_25394(context, 0, 0, delta);
