@@ -6,14 +6,13 @@ import dev.lvstrng.argon.module.Category;
 import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.modules.client.ClickGUI;
 import dev.lvstrng.argon.utils.*;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.class_332;
 
 public final class Window {
 	public List<ModuleButton> moduleButtons = new ArrayList<>();
@@ -49,31 +48,31 @@ public final class Window {
 		}
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(class_332 context, int mouseX, int mouseY, float delta) {
 		int toAlpha = ClickGUI.alphaWindow.getValueInt();
 
 		if (currentColor == null)
-			currentColor = new Color(0, 0, 0, 0);
-		else currentColor = new Color(0, 0, 0, currentColor.getAlpha());
+			currentColor = new Color(15, 15, 20, 0); 
+		else currentColor = new Color(15, 15, 20, currentColor.getAlpha());
 
 		if (currentColor.getAlpha() != toAlpha)
 			currentColor = ColorUtils.smoothAlphaTransition(0.05F, toAlpha, currentColor);
 
-		RenderUtils.renderRoundedQuad(context.getMatrices(), currentColor, prevX, prevY, prevX + width, prevY + height, ClickGUI.roundQuads.getValueInt(), ClickGUI.roundQuads.getValueInt(), 0, 0, 50);
-		context.fill(prevX, prevY + (height - 2), prevX + width, prevY + height, Utils.getMainColor(255, moduleButtons.indexOf(moduleButtons.get(0))).getRGB());
+		RenderUtils.renderRoundedQuad(context.method_51448(), currentColor, prevX, prevY, prevX + width, prevY + height, 4, 4, 0, 0, 50);
+		
+		context.method_25294(prevX, prevY + (height - 2), prevX + width, prevY + height, Utils.getMainColor(255, 0).getRGB());
 
 		int charOffset = (prevX + (width / 2));
 		int totalWidth = TextRenderer.getWidth(category.name);
 		int startX = charOffset - (totalWidth / 2);
 
-		TextRenderer.drawString(category.name, context, startX, prevY + 6, Color.WHITE.getRGB());
+		TextRenderer.drawString(category.name.toUpperCase(), context, startX, prevY + 7, new Color(230, 230, 240).getRGB());
 
 		updateButtons(delta);
 
 		for (ModuleButton moduleButton : moduleButtons)
 			moduleButton.render(context, mouseX, mouseY, delta);
 	}
-
 
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		for (ModuleButton moduleButton : moduleButtons)
@@ -88,7 +87,6 @@ public final class Window {
 
 		dragging = false;
 	}
-
 
 	public boolean isDraggingAlready() {
 		for(Window window : parent.windows)
@@ -111,7 +109,6 @@ public final class Window {
 				}
 				case 1: {
 					if (!dragging) {
-						//extended = !extended;
 					}
 					break;
 				}
@@ -198,6 +195,6 @@ public final class Window {
 		if (dragging) {
 			x = (int) MathUtils.goodLerp((float) 0.3 * delta, isHovered(mouseX, mouseY) ? x : prevX, mouseX - dragX);
 			y = (int) MathUtils.goodLerp((float) 0.3 * delta, isHovered(mouseX, mouseY) ? y : prevY, mouseY - dragY);
-        }
+		}
 	}
 }
