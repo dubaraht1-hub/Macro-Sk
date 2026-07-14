@@ -6,13 +6,13 @@ import dev.lvstrng.argon.module.modules.client.ClickGUI;
 import dev.lvstrng.argon.module.setting.Setting;
 import dev.lvstrng.argon.module.setting.StringSetting;
 import dev.lvstrng.argon.utils.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import net.minecraft.text.Text;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 
 public final class StringBox extends RenderableSetting {
     private final StringSetting setting;
@@ -56,10 +56,10 @@ public final class StringBox extends RenderableSetting {
                     mouseY *= (int) MinecraftClient.getInstance().getWindow().getScaleFactor();
                     super.render(context, mouseX, mouseY, delta);
 
-                    context.fill(0, 0, mc.getWindow().getWidth(), mc.getWindow().getHeight(), new Color(0, 0, 0, ClickGUI.background.getValue() ? 200 : 0).getRGB());
+                    context.fill(0, 0, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), new Color(0, 0, 0, ClickGUI.background.getValue() ? 200 : 0).getRGB());
 
-                    int screenMidX = mc.getWindow().getWidth() / 2;
-                    int screenMidY = mc.getWindow().getHeight() / 2;
+                    int screenMidX = mc.getWindow().getScaledWidth() / 2;
+                    int screenMidY = mc.getWindow().getScaledHeight() / 2;
 
                     int contentWidth = Math.max(TextRenderer.getWidth(content), 600);
                     int width = contentWidth + 30;
@@ -86,10 +86,10 @@ public final class StringBox extends RenderableSetting {
                         mc.setScreen(Argon.INSTANCE.clickGui);
                     }
 
-                    if(isPaste(keyCode))
+                    if(hasControlDown())
                         content += mc.keyboard.getClipboard();
 
-                    if(isCopy(keyCode))
+                    if(keyCode == GLFW.GLFW_KEY_C && hasControlDown())
                         GLFW.glfwSetClipboardString(mc.getWindow().getHandle(), content);
 
                     if(keyCode == GLFW.GLFW_KEY_BACKSPACE) {
@@ -101,9 +101,6 @@ public final class StringBox extends RenderableSetting {
                     return super.keyPressed(keyCode, scanCode, modifiers);
                 }
 
-                public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-                }
-
                 @Override
                 public boolean charTyped(char chr, int modifiers) {
                     content += chr;
@@ -111,12 +108,11 @@ public final class StringBox extends RenderableSetting {
                 }
 
                 @Override
-                public boolean shouldCloseOnEsc() {
+                public boolean shouldPause() {
                     return false;
                 }
             });
         }
         super.mouseClicked(mouseX, mouseY, button);
     }
-
 }
