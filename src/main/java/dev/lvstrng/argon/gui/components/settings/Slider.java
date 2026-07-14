@@ -4,11 +4,11 @@ import dev.lvstrng.argon.gui.components.ModuleButton;
 import dev.lvstrng.argon.module.setting.NumberSetting;
 import dev.lvstrng.argon.module.setting.Setting;
 import dev.lvstrng.argon.utils.*;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.math.MathHelper;
 
 public final class Slider extends RenderableSetting {
 	public boolean dragging;
