@@ -5,11 +5,9 @@ import dev.lvstrng.argon.module.setting.Setting;
 import dev.lvstrng.argon.utils.ColorUtils;
 import dev.lvstrng.argon.utils.RenderUtils;
 import dev.lvstrng.argon.utils.TextRenderer;
-
+import java.awt.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-
-import java.awt.*;
 
 public abstract class RenderableSetting {
 	public MinecraftClient mc = MinecraftClient.getInstance();
@@ -74,21 +72,21 @@ public abstract class RenderableSetting {
 
 			int tw = TextRenderer.getWidth(chars);
 
-			int parentCenter = mc.getWindow().getWidth() / 2;
+			int parentCenter = mc.getWindow().getScaledWidth() / 2;
 			int textCenter = parentCenter - tw / 2;
 
 			RenderUtils.renderRoundedQuad(
 					context.getMatrices(),
 					new Color(100, 100, 100, 100),
 					textCenter - 5,
-					(mc.getWindow().getHeight() / 2) + 294,
+					(mc.getWindow().getScaledHeight() / 2) + 294,
 					textCenter + tw + 5,
-					(mc.getWindow().getHeight() / 2) + 318,
+					(mc.getWindow().getScaledHeight() / 2) + 318,
 					3,
 					10
 			);
 
-			TextRenderer.drawString(chars, context, textCenter, (mc.getWindow().getHeight() / 2) + 300, Color.WHITE.getRGB());
+			TextRenderer.drawString(chars, context, textCenter, (mc.getWindow().getScaledHeight() / 2) + 300, Color.WHITE.getRGB());
 		}
 	}
 
