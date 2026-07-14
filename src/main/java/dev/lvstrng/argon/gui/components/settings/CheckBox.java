@@ -6,10 +6,10 @@ import dev.lvstrng.argon.module.setting.Setting;
 import dev.lvstrng.argon.utils.ColorUtils;
 import dev.lvstrng.argon.utils.TextRenderer;
 import dev.lvstrng.argon.utils.Utils;
-import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import net.minecraft.client.gui.DrawContext;
 
 public final class CheckBox extends RenderableSetting {
 	private final BooleanSetting setting;
