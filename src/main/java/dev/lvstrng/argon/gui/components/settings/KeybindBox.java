@@ -6,10 +6,10 @@ import dev.lvstrng.argon.module.setting.Setting;
 import dev.lvstrng.argon.utils.ColorUtils;
 import dev.lvstrng.argon.utils.KeyUtils;
 import dev.lvstrng.argon.utils.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import net.minecraft.client.gui.DrawContext;
 
 
 public final class KeybindBox extends RenderableSetting {
