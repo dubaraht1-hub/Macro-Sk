@@ -8,12 +8,11 @@ import dev.lvstrng.argon.module.Module;
 import dev.lvstrng.argon.module.modules.client.ClickGUI;
 import dev.lvstrng.argon.module.setting.*;
 import dev.lvstrng.argon.utils.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 
 import static dev.lvstrng.argon.Argon.mc;
 
@@ -55,7 +54,7 @@ public final class ModuleButton {
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		if (parent.getY() + offset > MinecraftClient.getInstance().getWindow().getHeight())
+		if (parent.getY() + offset > MinecraftClient.getInstance().getWindow().getScaledHeight())
 			return;
 
 		for (RenderableSetting renderableSetting : settings)
@@ -102,21 +101,21 @@ public final class ModuleButton {
 
 			int tw = TextRenderer.getWidth(chars);
 
-			int parentCenter = mc.getWindow().getFramebufferWidth() / 2;
+			int parentCenter = mc.getWindow().getScaledWidth() / 2;
 			int textCenter = parentCenter - tw / 2;
 
 			RenderUtils.renderRoundedQuad(
 					context.getMatrices(),
 					new Color(100, 100, 100, 100),
 					textCenter - 5,
-					((double) mc.getWindow().getFramebufferHeight() / 2) + 294,
+					((double) mc.getWindow().getScaledHeight() / 2) + 294,
 					textCenter + tw + 5,
-					((double) mc.getWindow().getFramebufferHeight() / 2) + 318,
+					((double) mc.getWindow().getScaledHeight() / 2) + 318,
 					3,
 					10
 			);
 
-			TextRenderer.drawString(chars, context, textCenter, (mc.getWindow().getFramebufferHeight() / 2) + 300, Color.WHITE.getRGB());
+			TextRenderer.drawString(chars, context, textCenter, (mc.getWindow().getScaledHeight() / 2) + 300, Color.WHITE.getRGB());
 		}
 	}
 
@@ -137,7 +136,7 @@ public final class ModuleButton {
 
 	private void renderSettings(DrawContext context, int mouseX, int mouseY, float delta) {
 		int scissorX = parent.getX();
-		int scissorY = (int) (mc.getWindow().getHeight() - (parent.getY() + offset + animation.getValue()));
+		int scissorY = (int) (mc.getWindow().getScaledHeight() - (parent.getY() + offset + animation.getValue()));
 		int scissorWidth = parent.getWidth();
 		int scissorHeight = (int) animation.getValue();
 
