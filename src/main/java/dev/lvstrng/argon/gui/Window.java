@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL13;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.class_332;
 
 public final class Window {
 	public List<ModuleButton> moduleButtons = new ArrayList<>();
@@ -48,7 +48,7 @@ public final class Window {
 		}
 	}
 
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+	public void render(class_332 context, int mouseX, int mouseY, float delta) {
 		int toAlpha = ClickGUI.alphaWindow.getValueInt();
 
 		if (currentColor == null)
@@ -58,9 +58,9 @@ public final class Window {
 		if (currentColor.getAlpha() != toAlpha)
 			currentColor = ColorUtils.smoothAlphaTransition(0.05F, toAlpha, currentColor);
 
-		RenderUtils.renderRoundedQuad(context.pose(), currentColor, prevX, prevY, prevX + width, prevY + height, 4, 4, 0, 0, 50);
+		RenderUtils.renderRoundedQuad(context.method_51448(), currentColor, prevX, prevY, prevX + width, prevY + height, 4, 4, 0, 0, 50);
 		
-		context.fill(prevX, prevY + (height - 2), prevX + width, prevY + height, Utils.getMainColor(255, 0).getRGB());
+		context.method_25294(prevX, prevY + (height - 2), prevX + width, prevY + height, Utils.getMainColor(255, 0).getRGB());
 
 		int charOffset = (prevX + (width / 2));
 		int totalWidth = TextRenderer.getWidth(category.name);
