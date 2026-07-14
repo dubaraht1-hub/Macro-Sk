@@ -7,12 +7,12 @@ import dev.lvstrng.argon.utils.ColorUtils;
 import dev.lvstrng.argon.utils.MathUtils;
 import dev.lvstrng.argon.utils.TextRenderer;
 import dev.lvstrng.argon.utils.Utils;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.util.math.MatrixStack;
 
 public final class MinMaxSlider extends RenderableSetting {
     public boolean draggingMin;
